@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, ActivityMain!</string>
+    <string name="app_name">Goo.gl URL Shortener</string>
+    <string name="txt_auth_sign_in"><u>Sign in </u></string>
+</resources>

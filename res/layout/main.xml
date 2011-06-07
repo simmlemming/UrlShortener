@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="10dip"
+    android:gravity="center_horizontal"
+    >
+    <TextView android:id="@+id/txtAuth"
+    	android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+    	android:text = "@string/txt_auth_sign_in"
+    	android:textColor="#0000FF"
+		android:gravity="right"
+		android:layout_marginBottom="10dip"
+    />
+    <EditText android:id="@+id/txtLong"
+    	android:text = "Long URL"
+    	android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_weight="1"
+		android:inputType="textUri"
+		android:gravity="center"
+		
+    />
+	<EditText android:id="@+id/txtShort"
+    	android:text = "Short URL"
+    	android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:editable="false"
+    />
+	<Button android:text="Short"
+		android:id="@+id/btnShort"
+		android:layout_width="100dip"
+		android:layout_height="wrap_content"
+		>
+		</Button>
+		
+</LinearLayout>
