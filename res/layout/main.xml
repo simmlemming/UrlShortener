@@ -6,14 +6,30 @@
     android:padding="10dip"
     android:gravity="center_horizontal"
     >
+<LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dip"
+    android:gravity="right"
+    >
+    
     <TextView android:id="@+id/txtAuth"
-    	android:layout_width="fill_parent"
+    	android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
     	android:text = "@string/txt_auth_sign_in"
     	android:textColor="#0000FF"
-		android:gravity="right"
-		android:layout_marginBottom="10dip"
     />
+    <TextView android:id="@+id/txtAuthError"
+    	android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:visibility="gone"
+    	android:text = "@string/txt_auth_error"
+    	android:textColor="#FF0000"
+    	android:layout_marginLeft="10dip"
+    />
+
+</LinearLayout>
     <EditText android:id="@+id/txtLong"
     	android:text = "Long URL"
     	android:layout_width="fill_parent"

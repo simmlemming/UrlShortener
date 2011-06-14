@@ -43,7 +43,12 @@ public class UrlShortener {
 							ACTION_URL_RECEIVED = "com.simm.urlshortener.URL_RECEIVED",
 							URL_TO_GET_SHORT_URL = "https://www.googleapis.com/urlshortener/v1/url",
 							JSON_KEY_SHORT_URL = "id",
-							JSON_KEY_LONG_URL = "longUrl"
+							JSON_KEY_LONG_URL = "longUrl",
+							PREFS_NAME="com.simm.urlshortener.prefs",
+							PREFS_KEY_TOKEN = "t",
+							PREFS_KEY_ACC_NAME = "an",
+							PREFS_KEY_AUTH_STATUS = "as",
+							AUTH_TOKEN_TYPE = "ah"
 	;
 	
 	public static final int STATE_NOT_PENDING = 0,
@@ -53,7 +58,14 @@ public class UrlShortener {
 							MSG_RESULT_OK = 4,
 							MSG_RESULT_ERROR = 5,
 							CONNETCION_TIMEOUT_MSEC = 5000, //wait for connection established
-							SOCKET_TIMEOUT_MSEC = 5000 //wait for data
+							SOCKET_TIMEOUT_MSEC = 5000, //wait for data
+							AUTH_SIGNED_IN = 6,
+							AUTH_NOT_SIGNED_IN = 7,
+							AUTH_ERROR_WHILE_LAST_ATTEMPT = 8,
+							AUTH_SIGNING_IN = 12,
+							MSG_WHAT_TOKEN_RECEIVED = 9,
+							ACTIVITY_BUILT_IN_AUTH = 10,
+							DIALOG_PICK_ACCOUNT = 11
 	;
 	public static String token;
 

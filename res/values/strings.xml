@@ -2,5 +2,8 @@
 <resources>
     <string name="hello">Hello World, ActivityMain!</string>
     <string name="app_name">Goo.gl URL Shortener</string>
-    <string name="txt_auth_sign_in"><u>Sign in </u></string>
+    <string name="txt_auth_sign_in"><u>Sign in</u></string>
+    <string name="txt_auth_signing_in"><u>Signing in</u></string>
+    <string name="txt_auth_sign_out"><u>Sign out</u></string>
+    <string name="txt_auth_error"><u>error</u></string>
 </resources>
