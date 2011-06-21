@@ -1,24 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="wrap_content"
     android:padding="10dip"
     android:gravity="center_horizontal"
     >
-<LinearLayout
-    android:orientation="horizontal"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:padding="5dip"
-    android:gravity="right"
-    >
-    
     <TextView android:id="@+id/txtAuth"
     	android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
+		android:layout_alignParentTop="true"
+		android:layout_alignParentRight="true"
     	android:text = "@string/txt_auth_sign_in"
     	android:textColor="#0000FF"
+    	android:layout_marginBottom="10dip"
     />
     <TextView android:id="@+id/txtAuthError"
     	android:layout_width="wrap_content"
@@ -27,29 +22,43 @@
     	android:text = "@string/txt_auth_error"
     	android:textColor="#FF0000"
     	android:layout_marginLeft="10dip"
+    	android:layout_toRightOf="@+id/txtAuth"
+    	android:layout_alignBaseline="@+id/txtAuth"
     />
 
-</LinearLayout>
     <EditText android:id="@+id/txtLong"
     	android:text = "Long URL"
-    	android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:layout_weight="1"
+    	android:layout_width="225dip"
+		android:layout_height="wrap_content"
 		android:inputType="textUri"
-		android:gravity="center"
-		
+		android:layout_below="@+id/txtAuth"
     />
 	<EditText android:id="@+id/txtShort"
-    	android:text = "Short URL"
-    	android:layout_width="fill_parent"
+    	android:text = ""
+    	android:layout_width="225dip"
 		android:layout_height="wrap_content"
 		android:editable="false"
+		android:layout_below="@+id/txtLong"
     />
-	<Button android:text="Short"
+	<ImageButton android:text=""
+		android:src="@drawable/icon"
+		android:scaleType="fitXY"
 		android:id="@+id/btnShort"
-		android:layout_width="100dip"
-		android:layout_height="wrap_content"
+		android:layout_width="50dip"
+		android:layout_height="50dip"
+		android:layout_alignParentRight="true"
+		android:layout_below="@+id/txtAuth"
 		>
-		</Button>
+		</ImageButton>
+	<ImageButton android:text=""
+		android:src="@drawable/ic_menu_share"
+		android:scaleType="fitXY"
+		android:id="@+id/btnShare"
+		android:layout_width="50dip"
+		android:layout_height="50dip"
+		android:layout_alignParentRight="true"
+		android:layout_below="@+id/txtLong"		
+		>
+		</ImageButton>
 		
-</LinearLayout>
+</RelativeLayout>

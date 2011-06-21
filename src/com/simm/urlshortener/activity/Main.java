@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +38,7 @@ public class Main extends Activity implements Callback{
 	private final String TAG = UrlShortener.TAG + "/ActivityMain";
 	private Context mContext;
 	private int mState = UrlShortener.STATE_NOT_PENDING;
-    private Button mBtnShort;
+    private ImageButton mBtnShort, mBtnShare;
     private BroadcastReceiver mLocalReceiver = new LocalReceiver();
     private EditText mTextLong, mTextShort;
     private TextView mTxtAuth, mTxtAuthError;
@@ -53,9 +54,11 @@ public class Main extends Activity implements Callback{
 			switch (resultCode) {
 			case UrlShortener.MSG_RESULT_OK:
 				shortUrlreceived(intent.getStringExtra(UrlShortener.EXTRA_SHORT_URL));
+				expandUI();
 				break;
 			case UrlShortener.MSG_RESULT_ERROR:
 				handleError(intent.getStringExtra(UrlShortener.EXTRA_SHORT_URL));
+				collapseUI();
 				break;
 			default:
 				Log.w(TAG, "Unknown result code.");
@@ -165,7 +168,8 @@ public class Main extends Activity implements Callback{
 		mContext = this;
         mTextLong = (EditText) findViewById(R.id.txtLong);
         mTextShort = (EditText) findViewById(R.id.txtShort);
-        mBtnShort = (Button) findViewById(R.id.btnShort);
+        mBtnShort = (ImageButton) findViewById(R.id.btnShort);
+        mBtnShare = (ImageButton) findViewById(R.id.btnShare);
         mTxtAuth = (TextView) findViewById(R.id.txtAuth);
         mTxtAuthError = (TextView) findViewById(R.id.txtAuthError);
         mTxtAuth.setOnClickListener(new LocalOnClickListener());
@@ -173,16 +177,33 @@ public class Main extends Activity implements Callback{
         mBtnShort.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				setUiPending(true);
-				Intent i = new Intent(mContext, ServiceShortener.class);
-				i.putExtra(UrlShortener.EXTRA_LONG_URL, mTextLong.getEditableText().toString());
-				mState = UrlShortener.STATE_PENDING;
-				startService(i);
+				collapseUI();
+				getShortUrl();
 			}
 		});
         
-        if (savedInstanceState != null)
+        mBtnShare.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(Intent.ACTION_SEND);
+				i.setType("text/plain");
+				i.putExtra(Intent.EXTRA_TEXT, mTextShort.getText().toString());
+				startActivity(Intent.createChooser(i, "Share via"));
+			}
+		});
+
+        
+    	String shortUrl = savedInstanceState == null ? "" : savedInstanceState.getString(UrlShortener.EXTRA_SHORT_URL); 
+    	if (shortUrl != null && shortUrl != ""){
+    		expandUI();
+    		} else {
+    		collapseUI();
+    		}
+        
+        if (savedInstanceState != null){
         	mState = savedInstanceState.getInt(UrlShortener.EXTRA_STATE, -1);
+        }
 
         if (mState == UrlShortener.STATE_PENDING){ //short url is not received by Activity
     		Intent i = new Intent(mContext, ServiceShortener.class);
@@ -190,7 +211,7 @@ public class Main extends Activity implements Callback{
     	    
     	    //Try to bind to service. If success (bindSevice will return true) - just
     	    //keep waiting for a broadcast message, if not -
-    	    //get short url from persistent storege
+    	    //get short url from persistent storage
     		if (!bindService(i, sc, 0)){
     			Log.i(TAG, "Service ended while activity was dead.");
     			//get url from persistent storage
@@ -201,8 +222,40 @@ public class Main extends Activity implements Callback{
     		unbindService(sc);
     	}
         
+        //If Intent != null than Activity started from ActivityChooser
+        //and there is a link to short in extras
+        Intent i = getIntent();
+        if (i != null && i.getExtras() != null){
+        	Log.i(TAG, "Stareted via Intent, MIME=" + i.getType());
+        	Log.i(TAG, "Stareted via Intent, categories=" + i.getCategories());
+        	Log.i(TAG, i.getExtras().keySet() + "");
+        	mTextLong.setText(i.getExtras().getString(Intent.EXTRA_TEXT));
+        	//This prevents re-receiving of short URL after screen rotation
+        	if (savedInstanceState == null)
+        		getShortUrl();
+        }
+        
     }
     
+    private void collapseUI(){
+		mTextShort.setVisibility(View.GONE);
+		mBtnShare.setVisibility(View.GONE);
+
+    }
+
+    private void expandUI(){
+		mTextShort.setVisibility(View.VISIBLE);
+		mBtnShare.setVisibility(View.VISIBLE);
+    }
+
+	private void getShortUrl() {
+		setUiPending(true);
+		Intent i = new Intent(mContext, ServiceShortener.class);
+		i.putExtra(UrlShortener.EXTRA_LONG_URL, mTextLong.getEditableText().toString());
+		mState = UrlShortener.STATE_PENDING;
+		startService(i);
+	}
+
 	@Override
 	public boolean handleMessage(Message msg) {
 		Log.i(TAG, "Message handled: " + msg.toString());
@@ -362,7 +415,6 @@ public class Main extends Activity implements Callback{
 		switch (status) {
 		case UrlShortener.AUTH_SIGNING_IN:
 			mTxtAuth.setText(R.string.txt_auth_signing_in);
-			mTxtAuth.setTextColor(0x999999);
 			mTxtAuthError.setVisibility(View.GONE);
 			break;
 		case UrlShortener.AUTH_SIGNED_IN:

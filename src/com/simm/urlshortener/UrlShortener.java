@@ -67,7 +67,8 @@ public class UrlShortener {
 							ACTIVITY_BUILT_IN_AUTH = 10,
 							DIALOG_PICK_ACCOUNT = 11
 	;
-	public static String token;
+	/** Auth token for test account **/
+	public static String token = "OAuth 1/6jgEVfoROPXG-0nhpR8FIdhtEOvQm__HojlYO2gGs9o";
 
 	public static String longUrl, shortUrl;
 	
@@ -75,9 +76,9 @@ public class UrlShortener {
 		Log.i(TAG, "=== Test authorized request begins ===");
 		HttpGet request = new HttpGet("https://www.googleapis.com/urlshortener/v1/url/history");
 		//request.addHeader("Authorization", token);
-		 request.addHeader("Authorization", "GoogleLogin auth=" + token);
+		 //request.addHeader("Authorization", "GoogleLogin auth=" + token);
 
-		Log.i(TAG, "Request: " + request.getFirstHeader("Authorization").toString());
+		//Log.i(TAG, "Request: " + request.getFirstHeader("Authorization").toString());
 		HttpClient client = new DefaultHttpClient();
 		org.apache.http.HttpResponse responce = null;
 		try {
@@ -109,7 +110,7 @@ public class UrlShortener {
 					.endObject()
 					.toString();
 			request.setEntity(new StringEntity(jsonAsString));
-//			request.addHeader("Authorization", token);
+			//request.addHeader("Authorization", token);
 			Log.i(TAG, "Request-JSON as string: " + jsonAsString);
 		} catch (Exception e) {
 			JSONException ee = new JSONException("");
